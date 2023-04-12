@@ -1,11 +1,42 @@
 {ns nordic-box
- import #{zenbox
-          aidbox
-          operation}
+ import #{aidbox
+          aidbox.rest
+          lisp
+          injestion.core}
+
+ breathing-rate-mapping
+ {:zen/tags #{lisp/mapping}
+  :mapping  {:resourceType "Bundle"
+             :type "transaction"
+             :entry [{:resource {:resourceType "Patient"}
+                      :request {:method "PUT"
+                                :url "/Patient/zero"}}
+
+                     {:resource {:resourceType "Observation"
+                                 :status "final"
+                                 :code {:coding [{:system "http://loinc.org"
+                                                  :code "8867-4"
+                                                  :display "Respiratory rate"}]
+                                        :text "Breathing Rate"}
+                                 :subject {:reference "Patient/zero"}
+                                 :effectiveDateTime (get-in [:br 0 :dateTime]),
+                                 :valueQuantity   {
+                                                   :value (get-in [:br 0 :value :breathingRate]),
+                                                   :unit "breaths/minute",
+                                                   :system "http://unitsofmeasure.org",
+                                                   :code "/min"}}
+                      :request {:method "POST"
+                                :url "/Observation"}}]}}
+
+ breathing-rate-to-fhir
+ {:zen/tags #{aidbox.rest/op}
+  :engine   injestion.core/map-to-fhir-bundle
+  :mapping  breathing-rate-mapping
+  :format   "fhir"}
 
  api
  {:zen/tags #{aidbox.rest/api}
-  "fitbit" {"map-to-fhir" {:POST operation/map-to-fhir}}}
+  "fitbit" {"breathing-rate" {:POST breathing-rate-to-fhir}}}
 
  server
  {:zen/tags #{aidbox/service}
