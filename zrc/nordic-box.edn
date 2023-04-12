@@ -43,7 +43,7 @@
   :engine   aidbox/http
   :apis     #{api}}
 
- nordic-box
+ box
  {:zen/tags #{aidbox/system}
   :services {:http server}}
  }
