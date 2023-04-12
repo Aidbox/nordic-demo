@@ -1,4 +1,4 @@
-{ns box
+{ns nordic-box
  import #{zenbox
           aidbox
           operation}
