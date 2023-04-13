@@ -2,7 +2,8 @@
  import #{aidbox
           aidbox.rest
           lisp
-          injestion.core}
+          injestion.core
+          sdc-box}
 
  breathing-rate-mapping
  {:zen/tags #{lisp/mapping}
@@ -43,7 +44,20 @@
   :engine   aidbox/http
   :apis     #{api}}
 
- box
+ box_o
  {:zen/tags #{aidbox/system}
   :services {:http server}}
+ 
+ 
+  box
+ {:zen/tags #{aidbox/system}
+  :zen/desc "test server"
+  :config   sdc-box/config
+  :services {:seed-fixtures sdc-box/seed-fixtures
+             :sdc sdc-box/sdc-service
+             :http server}}
+ 
+ 
+ 
+ 
  }
