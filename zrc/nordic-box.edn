@@ -9,7 +9,9 @@
  {:zen/tags #{lisp/mapping}
   :mapping  {:resourceType "Bundle"
              :type "transaction"
-             :entry [{:resource {:resourceType "Patient"}
+             :entry [{:resource {:resourceType "Patient"
+                                 :birthDate "1973-06-10"
+                                 :name [{:family "Smith"}]}
                       :request {:method "PUT"
                                 :url "/Patient/zero"}}
 
